@@ -10,18 +10,7 @@
 
 -->
 <?php
-
-$servername = "localhost";
-
-// REPLACE with your Database name
-$dbname = "alexand7_Alldata";
-// REPLACE with Database user
-$username = "alexand7_Alldata";
-// REPLACE with Database user password
-$password = "blPWnaX1508**TAI";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+include ('config.php');
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -38,14 +27,14 @@ while ($data = $result->fetch_assoc()){
 $readings_time = array_column($sensor_data, 'reading_time');
 
 // ******* Uncomment to convert readings time array to your timezone ********
-/*$i = 0;
+$i = 0;
 foreach ($readings_time as $reading){
     // Uncomment to set timezone to - 1 hour (you can change 1 to any number)
-    $readings_time[$i] = date("Y-m-d H:i:s", strtotime("$reading - 1 hours"));
+    $readings_time[$i] = date("H:i:s d-m-Y", strtotime("$reading"));
     // Uncomment to set timezone to + 4 hours (you can change 4 to any number)
     //$readings_time[$i] = date("Y-m-d H:i:s", strtotime("$reading + 4 hours"));
     $i += 1;
-}*/
+}
 
 $value1 = json_encode(array_reverse(array_column($sensor_data, 'value1')), JSON_NUMERIC_CHECK);
 $value2 = json_encode(array_reverse(array_column($sensor_data, 'value2')), JSON_NUMERIC_CHECK);
@@ -63,26 +52,24 @@ $conn->close();
 
 <!DOCTYPE html>
 <html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <style>
-    body {
-      min-width: 310px;
-    	max-width: 1280px;
-    	height: 500px;
-      margin: 0 auto;
-    }
-    h2 {
-      font-family: Arial;
-      font-size: 2.5rem;
-      text-align: center;
-    }
-  </style>
+      <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src = "https://code.highcharts.com/highcharts.js"></script>
+  <script src = "https://code.highcharts.com/highcharts-more.js"></script>
+<link rel="stylesheet" href="/project/style.css">
+</head>
   <body>
-    <h2>ESP Weather Station</h2>
+    <h2>Drone Live Data</h2>
     <div id="chart-temperature" class="container"></div>
     <div id="chart-humidity" class="container"></div>
     <div id="chart-pressure" class="container"></div>
+    <div id = "container" class="container"></div>
+    <div id = "live_container" class="container"></div>
 <script>
 
 var value1 = <?php echo $value1; ?>;
@@ -92,8 +79,9 @@ var reading_time = <?php echo $reading_time; ?>;
 
 var chartT = new Highcharts.Chart({
   chart:{ renderTo : 'chart-temperature' },
-  title: { text: 'BME280 Temperature' },
+  title: { text: 'CO levels' },
   series: [{
+    name: 'CO sensor',
     showInLegend: false,
     data: value1
   }],
@@ -108,15 +96,14 @@ var chartT = new Highcharts.Chart({
     categories: reading_time
   },
   yAxis: {
-    title: { text: 'Temperature (Celsius)' }
-    //title: { text: 'Temperature (Fahrenheit)' }
+    title: { text: 'Value in μg/m³' }
   },
   credits: { enabled: false }
 });
 
 var chartH = new Highcharts.Chart({
   chart:{ renderTo:'chart-humidity' },
-  title: { text: 'BME280 Humidity' },
+  title: { text: 'VOC Air Quality' },
   series: [{
     showInLegend: false,
     data: value2
@@ -161,6 +148,172 @@ var chartP = new Highcharts.Chart({
   credits: { enabled: false }
 });
 
+</script>
+    <script language = "JavaScript">
+
+		$(document).ready(function() {
+          var value2 = <?php echo $value2; ?>;
+          var last = value2[value2.length - 1];
+          var valText;
+          if(last == 0.5)
+		   {
+			valText = "Чисто";
+		   }
+		   else if(last == 1.5)
+		   {
+			valText = "Ниско";
+		   }
+		   else if(last == 2.5)
+		   {
+			valText = "Средно";
+		   }
+		   else if(last == 3.5)
+		   {
+			valText = "Високо";
+		   }
+            var chart = {
+               type: 'gauge',
+               plotBackgroundColor: null,
+               plotBackgroundImage: null,
+               plotBorderWidth: 0,
+               plotShadow: false
+            };
+            var title = {
+               text: 'VOC Meter'
+            };
+            var pane = {
+               startAngle: -90,
+               endAngle: 90,
+               background: null
+            };
+
+            // the value axis
+            var yAxis = {
+               min: 0,
+               max: 4,
+
+               minorTickInterval: 'auto',
+               minorTickWidth: 1,
+               minorTickLength: 5,
+               minorTickPosition: 'inside',
+               minorTickColor: '#666',
+
+               tickPixelInterval: 30,
+               tickWidth: 2,
+               tickPosition: 'inside',
+               tickLength: 10,
+               tickColor: '#666',
+
+               labels: {
+                  step: 2,
+                  rotation: 'auto'
+               },
+               title: {
+                  text: 'Ниво: ' + valText
+               },
+               plotBands: [
+				  {
+                     from: 0,
+                     to: 1,
+                     color: '#D8D8D8' // grey
+                  },
+                  {
+                     from: 1,
+                     to: 2,
+                     color: '#55BF3B' // green
+                  },
+                  {
+                     from: 2,
+                     to: 3,
+                     color: '#DDDF0D' // yellow
+                  },
+                  {
+                     from: 3,
+                     to: 4,
+                     color: '#DF5353' // red
+                  }
+               ]
+            };
+            var series = [{
+               name: 'Степен',
+               data: [last]
+            }];
+            var json = {};
+            json.chart = chart;
+            json.title = title;
+            json.pane = pane;
+            json.yAxis = yAxis;
+            json.series = series;
+
+
+            $('#container').highcharts(json);
+         });
+      </script>
+  <script>
+    // Create the chart
+Highcharts.stockChart('live_container', {
+  chart: {
+    events: {
+      load: function () {
+
+        // set up the updating of the chart each second
+        var series = this.series[0];
+        setInterval(function () {
+          var x = (new Date()).getTime(), // current time
+            y = Math.round(Math.random() * 100);
+          series.addPoint([x, y], true, true);
+        }, 1000);
+      }
+    }
+  },
+
+  time: {
+    useUTC: false
+  },
+
+  rangeSelector: {
+    buttons: [{
+      count: 1,
+      type: 'minute',
+      text: '1M'
+    }, {
+      count: 5,
+      type: 'minute',
+      text: '5M'
+    }, {
+      type: 'all',
+      text: 'All'
+    }],
+    inputEnabled: false,
+    selected: 0
+  },
+
+  title: {
+    text: 'Live random data'
+  },
+
+  exporting: {
+    enabled: false
+  },
+
+  series: [{
+    name: 'Random data',
+    data: (function () {
+      // generate an array of random data
+      var data = [],
+        time = (new Date()).getTime(),
+        i;
+
+      for (i = -999; i <= 0; i += 1) {
+        data.push([
+          time + i * 1000,
+          Math.round(Math.random() * 100)
+        ]);
+      }
+      return data;
+    }())
+  }]
+});
 </script>
 </body>
 </html>

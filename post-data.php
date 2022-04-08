@@ -10,14 +10,7 @@
   copies or substantial portions of the Software.
 */
 
-$servername = "localhost";
-
-// REPLACE with your Database name
-$dbname = "alexand7_Alldata";
-// REPLACE with Database user
-$username = "alexand7_Alldata";
-// REPLACE with Database user password
-$password = "blPWnaX1508**TAI";
+include ('config.php');
 
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page. If you change this value, the ESP32 sketch needs to match
 $api_key_value = "tPmAT5Ab3j7F9";
@@ -30,9 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $value1 = test_input($_POST["value1"]);
         $value2 = test_input($_POST["value2"]);
         $value3 = test_input($_POST["value3"]);
-        
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
