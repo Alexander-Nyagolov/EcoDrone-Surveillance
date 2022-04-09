@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
  
 	<head>
         <title>Eco Drone official website</title>
         <link rel="stylesheet" href="project/style.css">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
 	</head>
 	<body>
         <div class="header">
@@ -22,7 +23,7 @@
                 </div>
                 <div class="boxcontents">
                     <h2>Our Mission:</h2>
-                    <p style="font-size: 110%">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     <br>
                     <h>Active data from drone:</h><br>
                     <a href="sensor_data.php"><button class="animated_button">Look at data</button></a>
@@ -33,11 +34,42 @@
                 <div class="boxcontents">
                     <h2>Our Team:</h2>
                     <div class="boxlist">
-                        <div class="smallbox"><p style="font-size: 110%">Member 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
-                        <div class="smallbox"><p style="font-size: 110%">Member 2: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
-                        <br>
-                        <div class="smallbox"><p style="font-size: 110%">Member 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
-                        <div class="smallbox"><p style="font-size: 110%">Member 4: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
+                            <div class="gallery">
+                                <div class="circular--landscape">
+                                    <img src="profile_alex.jpg"/>
+                                </div>
+                                <div class="desc">
+                                     Име: Александър Няголов<br>
+                                     Роля: Главен инженер, програмист и мениджър на екипа
+                                </div class="desc">
+                            </div>
+                            <div class="gallery">
+                                <div class="circular--landscape">
+                                    <img src="profile_alex.jpg"/>
+                                </div>
+                                <div class="desc">
+                                     Име: Ивона Николаева<br>
+                                     Роля: Главен финансов анализатор и юрисконсулт
+                                </div class="desc">
+                            </div>
+                            <div class="gallery">
+                                <div class="circular--landscape">
+                                    <img src="profile_alex.jpg"/>
+                                </div>
+                                <div class="desc">
+                                     Име: Ивайло Банчев<br>
+                                     Роля: Главен дизайнер, компютърен аниматор
+                                </div class="desc">
+                            </div>
+                            <div class="gallery">
+                                <div class="circular--landscape">
+                                    <img src="profile_alex.jpg"/>
+                                </div>
+                                <div class="desc">
+                                     Име: Ростислав Гордеев<br>
+                                     Роля: Главен разработчик, технически инспектор
+                                </div class="desc">
+                            </div>
                     </div>
                 </div>
             </div>
