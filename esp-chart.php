@@ -1,23 +1,12 @@
-<!--
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
--->
 <?php
 include ('config.php');
 global $conn;
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-} 
+}
 
-$sql = "SELECT id, value1, value2, value3, reading_time FROM Sensor order by reading_time desc limit 40";
+$sql = "SELECT id, co, co2, voc, tvoc, ozone, pm1, pm25, pm10, reading_time FROM Sensor order by reading_time desc limit 40";
 
 $result = $conn->query($sql);
 
@@ -36,21 +25,24 @@ foreach ($readings_time as $reading){
     //$readings_time[$i] = date("Y-m-d H:i:s", strtotime("$reading + 4 hours"));
     $i += 1;
 }
-header("Refresh:3");
-$value1 = json_encode(array_reverse(array_column($sensor_data, 'value1')), JSON_NUMERIC_CHECK);
-$value2 = json_encode(array_reverse(array_column($sensor_data, 'value2')), JSON_NUMERIC_CHECK);
-$value3 = json_encode(array_reverse(array_column($sensor_data, 'value3')), JSON_NUMERIC_CHECK);
+
+$co = json_encode(array_reverse(array_column($sensor_data, 'co')), JSON_NUMERIC_CHECK);
+$co2 = json_encode(array_reverse(array_column($sensor_data, 'co2')), JSON_NUMERIC_CHECK);
+$voc = json_encode(array_reverse(array_column($sensor_data, 'voc')), JSON_NUMERIC_CHECK);
+$tvoc = json_encode(array_reverse(array_column($sensor_data, 'tvoc')), JSON_NUMERIC_CHECK);
+$ozone = json_encode(array_reverse(array_column($sensor_data, 'ozone')), JSON_NUMERIC_CHECK);
+$pm1 = json_encode(array_reverse(array_column($sensor_data, 'pm1')), JSON_NUMERIC_CHECK);
+$pm25 = json_encode(array_reverse(array_column($sensor_data, 'pm25')), JSON_NUMERIC_CHECK);
+$pm10 = json_encode(array_reverse(array_column($sensor_data, 'pm10')), JSON_NUMERIC_CHECK);
 $reading_time = json_encode(array_reverse($readings_time), JSON_NUMERIC_CHECK);
 
-/*echo $value1;
-echo $value2;
-echo $value3;
-echo $reading_time;*/
+//echo "$co, $co2, $voc, $ozone, $pm1, $pm25, $pm10, $reading_time";
 
 $result->free();
 $conn->close();
-?>
 
+//header("Refresh:3");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,75 +57,91 @@ $conn->close();
 <link rel="stylesheet" href="/project/style.css">
 </head>
   <body>
-    <div id="chart-co" class="container"></div>
-    <pre>
-    <div id="chart-co2" class="container"></div>
-    <div id="chart-voc" class="container"></div>
+    <div id="co" class="container"></div>
+    <div id="chart-tvoc" class="container"></div>
     <div id="chart-ozone" class="container"></div>
-    <div id = "container" class="container"></div>
-
+	<div id = "pm" class="container"></div>
 <script>
 
-var value1 = <?php echo $value1; ?>;
-var value2 = <?php echo $value2; ?>;
-var value3 = <?php echo $value3; ?>;
+var co = <?php echo $co; ?>;
+var co2 = <?php echo $co2; ?>;
+var voc = <?php echo $voc; ?>;
+var tvoc = <?php echo $tvoc; ?>;
+var ozone = <?php echo $ozone; ?>;
+var pm1 = <?php echo $pm1; ?>;
+var pm25 = <?php echo $pm25; ?>;
+var pm10 = <?php echo $pm10; ?>;
 var reading_time = <?php echo $reading_time; ?>;
 
-var chartT = new Highcharts.Chart({
-  chart:{ renderTo : 'chart-co' },
-  title: { text: 'CO levels' },
-  series: [{
-    name: 'CO sensor',
-    showInLegend: false,
-    data: value1
-  }],
-  plotOptions: {
-    line: { animation: false,
-      dataLabels: { enabled: true }
+Highcharts.chart('co', {
+	chart: {
+    	zoomType: 'x'
     },
-    series: { color: '#059e8a' }
-  },
-  xAxis: { 
-    type: 'datetime',
+    title: {
+        text: 'Въглеродни оксиди'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Нива (ppm)'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: 2010 to 2017'
+        },
+      type: 'datetime',
     categories: reading_time
-  },
-  yAxis: {
-    title: { text: 'CO (μg/m³)' }
-  },
-  credits: { enabled: false }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+          	animation: false
+        }
+    },
+
+    series: [ {
+        name: 'CO',
+        data: co
+    }, {
+        name: 'CO²',
+        data: co2
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
 });
 
-var chartK = new Highcharts.Chart({
-  chart:{ renderTo : 'chart-co2' },
-  title: { text: 'CO²  levels' },
+var chartVOC = new Highcharts.Chart({
+  chart:{ renderTo:'chart-tvoc' },
+  title: { text: 'Летливи органични частици' },
   series: [{
-    name: 'CO² sensor',
+      name: 'Показания',
     showInLegend: false,
-    data: value1
-  }],
-  plotOptions: {
-    line: { animation: false,
-      dataLabels: { enabled: true }
-    },
-    series: { color: '#059e8a' }
-  },
-  xAxis: {
-    type: 'datetime',
-    categories: reading_time
-  },
-  yAxis: {
-    title: { text: 'CO² (μg/m³)' }
-  },
-  credits: { enabled: false }
-});
-
-var chartH = new Highcharts.Chart({
-  chart:{ renderTo:'chart-voc' },
-  title: { text: 'VOC Air Quality' },
-  series: [{
-      name: 'VOC sensor',
-    showInLegend: false,
-    data: value2
+    data: tvoc
   }],
   plotOptions: {
     line: { animation: false,
@@ -146,19 +154,19 @@ var chartH = new Highcharts.Chart({
     categories: reading_time
   },
   yAxis: {
-    title: { text: 'VOC (ppm)' }
+    title: { text: 'VOC (ppb)' }
   },
   credits: { enabled: false }
 });
 
 
-var chartP = new Highcharts.Chart({
+var chartOzone = new Highcharts.Chart({
   chart:{ renderTo:'chart-ozone' },
-  title: { text: 'Ozone Levels' },
+  title: { text: 'Нива на озон' },
   series: [{
-      name: 'Ozone sensor',
+      name: 'Показания',
     showInLegend: false,
-    data: value3
+    data: ozone
   }],
   plotOptions: {
     line: { animation: false,
@@ -175,106 +183,68 @@ var chartP = new Highcharts.Chart({
   },
   credits: { enabled: false }
 });
+
+Highcharts.chart('pm', {
+	chart: {
+    	zoomType: 'x'
+    },
+    title: {
+        text: 'Финни прахови частици'
+    },
+
+    yAxis: {
+        title: {
+            text: 'PM (μg/m³)'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: 2010 to 2017'
+        },
+      type: 'datetime',
+    categories: reading_time
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+          	animation: false
+        }
+    },
+
+    series: [ {
+        name: 'PM2.5',
+        data: pm25
+    }, {
+        name: 'PM10',
+        data: pm10
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
 </script>
-    <script language = "JavaScript">
-
-		$(document).ready(function() {
-          var value2 = <?php echo $value2; ?>;
-          var last = value2[value2.length - 1];
-          var valText;
-          if(last == 0.5)
-		   {
-			valText = "Чисто";
-		   }
-		   else if(last == 1.5)
-		   {
-			valText = "Ниско";
-		   }
-		   else if(last == 2.5)
-		   {
-			valText = "Средно";
-		   }
-		   else if(last == 3.5)
-		   {
-			valText = "Високо";
-		   }
-            var chart = {
-               type: 'gauge',
-               plotBackgroundColor: null,
-               plotBackgroundImage: null,
-               plotBorderWidth: 0,
-               plotShadow: false
-            };
-            var title = {
-               text: 'VOC Meter'
-            };
-            var pane = {
-               startAngle: -90,
-               endAngle: 90,
-               background: null
-            };
-
-            // the value axis
-            var yAxis = {
-               min: 0,
-               max: 4,
-
-               minorTickInterval: 'auto',
-               minorTickWidth: 1,
-               minorTickLength: 5,
-               minorTickPosition: 'inside',
-               minorTickColor: '#666',
-
-               tickPixelInterval: 30,
-               tickWidth: 2,
-               tickPosition: 'inside',
-               tickLength: 10,
-               tickColor: '#666',
-
-               labels: {
-                  step: 2,
-                  rotation: 'auto'
-               },
-               title: {
-                  text: 'Ниво: ' + valText
-               },
-               plotBands: [
-				  {
-                     from: 0,
-                     to: 1,
-                     color: '#D8D8D8' // grey
-                  },
-                  {
-                     from: 1,
-                     to: 2,
-                     color: '#55BF3B' // green
-                  },
-                  {
-                     from: 2,
-                     to: 3,
-                     color: '#DDDF0D' // yellow
-                  },
-                  {
-                     from: 3,
-                     to: 4,
-                     color: '#DF5353' // red
-                  }
-               ]
-            };
-            var series = [{
-               name: 'Степен',
-               data: [last]
-            }];
-            var json = {};
-            json.chart = chart;
-            json.title = title;
-            json.pane = pane;
-            json.yAxis = yAxis;
-            json.series = series;
-
-
-            $('#container').highcharts(json);
-         });
-      </script>
 </body>
 </html>
