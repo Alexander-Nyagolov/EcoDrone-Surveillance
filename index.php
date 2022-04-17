@@ -2,79 +2,102 @@
 <html>
  
 	<head>
-        <title>Eco Drone official website</title>
-        <link rel="stylesheet" href="project/style.css">
+        <title>Eco Drone Оfficial Website</title>
+        <link rel='stylesheet' href=/project/style.css?v=1553116856>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
-      </script>
-      <script src = "https://code.highcharts.com/highcharts.js"></script>
-      <script src = "https://code.highcharts.com/highcharts-more.js"></script>
+        </script>
+        <script src = "https://code.highcharts.com/highcharts.js"></script>
+        <script src = "https://code.highcharts.com/highcharts-more.js"></script>
 	</head>
 	<body>
         <div class="header">
-            <ul>
-                <h1>ECO DRONE</h1>
-                <a href="index.php" class="active"><li>Home</li></a>
-                <a href="sensor_data.php"><li>Drone Data</li></a>
-                <a href="technical_information.html"><li>Technical Information</li></a>
-                <a href="extras.html"><li>Extra info and files</li></a>
-            </ul>
-        </div>
+        <ul>
+            <h1>ECO DRONE</h1>
+            <a href="index.php"><li>Заглавна страница</li></a>
+            <a href="sensor_data.php" class="active"><li>Качество на въздуха</li></a>
+            <a href="technical_information.html"><li>Техническа Информация</li></a>
+            <a href="extras.html"><li>Допълнителна Информация</li></a>
+        </ul>
+    </div>
         <div class="contents">
             <div class="centerbox">
-                <div class="boxheader">
-                    
-                </div>
                 <div class="boxcontents">
-                    <h2>Our Mission:</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <br>
+                    <div class="boxheader" style="margin-top:0px;">
                     <h1>Качество на въздуха:</h1>
-                         <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto"></div>
-                    <h>Active data from drone:</h><br>
-                    <a href="sensor_data.php"><button class="animated_button">Look at data</button></a>
+                    </div>
+                         <div id = "container" style = "width: 600px; height: 500px; margin: 0 auto; border-radius: 20% 20% 20% 20%;"></div>
+                    <a href="sensor_data.php"><button class="animated_button">Подробна информация</button></a>
                 </div>
                 <br>
             </div>
             <div class="centerbox" style="margin-top:10px">
+                <div class="boxheader">
+                <h2>Нашата цел:</h2>
+                </div>
                 <div class="boxcontents">
-                    <h2>Our Team:</h2>
+                    
+                    <p style="font-size:30px;">
+                        EcoDrone Surveillance е компания, чиято цел е чрез своите продукти и услуги да спомогне за превенцията и намаляването на замърсяването на въздуха, като по този начин подобри цялостното благосъстояние на околната среда.
+                    </p>
+                    <br>
+                </div>
+                <div class="boxcontents">
+                    <div class="boxheader">
+                        <h2>Нашият Екип:</h2>
+                    </div>
                     <div class="boxlist">
-                            <div class="gallery">
-                                <div class="circular--landscape">
-                                    <img src="profile_alex.jpg"/>
+                            <div class="img-cell">
+                                <div class="gallery">
+                                    <div class="circular--landscape">
+                                        <img src="project/images/profile_alex.jpg"/>
+                                    </div>
+                                    <div class="desc">
+                                    <p>
+                                         Име: Александър Няголов<br>
+                                         Роля: Мениджър, инженер и разработчик
+                                    </p>
+                                    </div>
                                 </div>
-                                <div class="desc">
-                                     Име: Александър Няголов<br>
-                                     Роля: Главен инженер, програмист и мениджър на екипа
-                                </div class="desc">
                             </div>
-                            <div class="gallery">
-                                <div class="circular--landscape">
-                                    <img src="profile_alex.jpg"/>
+                            <div class="img-cell">
+                                <div class="gallery">
+                                    <div class="circular--landscape">
+                                        <img src="project/images/profile_ivona-crop.jpg" style="width:360px; height:460px"/>
+                                    </div>
+                                    <div class="desc">
+                                    <p>
+                                         Име: Ивона Николаева<br>
+                                         Роля: Финансов мениджър 
+                                    </p>
+                                    </div>
                                 </div>
-                                <div class="desc">
-                                     Име: Ивона Николаева<br>
-                                     Роля: Главен финансов анализатор и юрисконсулт
-                                </div class="desc">
                             </div>
-                            <div class="gallery">
-                                <div class="circular--landscape">
-                                    <img src="profile_alex.jpg"/>
+                            <div class="img-cell">
+                                <div class="gallery">
+                                    <div class="circular--landscape">
+                                        <img src="project/images/profile_ivo-crop.jpg" style="width:410px; height:440px;"/>
+                                    </div>
+                                    <div class="desc">
+                                    <p>
+                                         Име: Ивайло Банчев<br>
+                                         Роля: Маркетингов мениджър, компютърен дизайн
+                                    </p>
+                                    </div>
                                 </div>
-                                <div class="desc">
-                                     Име: Ивайло Банчев<br>
-                                     Роля: Главен дизайнер, компютърен аниматор
-                                </div class="desc">
                             </div>
-                            <div class="gallery">
-                                <div class="circular--landscape">
-                                    <img src="profile_alex.jpg"/>
+                            <div class="img-cell">
+                                <div class="gallery">
+                                    <div class="circular--landscape">
+                                        <img src="project/images/profile_roko.jpg"/>
+                                    </div>
+                                    <div class="desc">
+                                    <p>
+                                         Име: Ростислав Гордеев<br>
+                                         Роля: Софтуерен разработчик и технически инспектор
+                                    </p>
+                                    </div>
                                 </div>
-                                <div class="desc">
-                                     Име: Ростислав Гордеев<br>
-                                     Роля: Главен разработчик, технически инспектор
-                                </div class="desc">
                             </div>
                     </div>
                 </div>
@@ -121,7 +144,7 @@ function Save(result){
                plotShadow: false
             };
             var title = {
-               text: 'Air Quality Meter'
+               text: 'Ниво на замърсяване'
             };
             var pane = {
                startAngle: -90,
