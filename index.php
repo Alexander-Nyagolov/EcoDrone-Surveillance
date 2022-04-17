@@ -26,7 +26,7 @@
                     <div class="boxheader" style="margin-top:0px;">
                     <h1>Качество на въздуха:</h1>
                     </div>
-                         <div id = "container" style = "width: 600px; height: 500px; margin: 0 auto; border-radius: 20% 20% 20% 20%;"></div>
+                         <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto; border-radius: 20% 20% 20% 20%;"></div>
                     <a href="sensor_data.php"><button class="animated_button">Подробна информация</button></a>
                 </div>
                 <br>
