@@ -41,7 +41,7 @@ $reading_time = json_encode(array_reverse($readings_time), JSON_NUMERIC_CHECK);
 $result->free();
 $conn->close();
 
-//header("Refresh:3");
+header("Refresh:10");
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,9 +58,12 @@ $conn->close();
 </head>
   <body>
     <div id="co" class="container"></div>
+    <br>
     <div id="chart-tvoc" class="container"></div>
+    <br>
     <div id="chart-ozone" class="container"></div>
-	<div id = "pm" class="container"></div>
+	<br>
+    <div id = "pm" class="container"></div>
 <script>
 
 var co = <?php echo $co; ?>;
@@ -189,7 +192,7 @@ Highcharts.chart('pm', {
     	zoomType: 'x'
     },
     title: {
-        text: 'Финни прахови частици'
+        text: 'Фини прахови частици'
     },
 
     yAxis: {
@@ -222,6 +225,9 @@ Highcharts.chart('pm', {
     },
 
     series: [ {
+        name: 'PM1',
+        data: pm1
+    },{
         name: 'PM2.5',
         data: pm25
     }, {
