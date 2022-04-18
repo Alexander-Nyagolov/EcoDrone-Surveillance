@@ -22,7 +22,7 @@
     <div class="contents">
         <div class="centerbox">
             <div class="boxheader" style="color:white; height:50px; margin:auto">
-                <h2>Пордробна Информация</h2>   
+                <h2>Подробна Информация</h2>   
             </div>
                 <div class="centerbox-back" style="height:0px">
                     <div class="lds-ring-center">
