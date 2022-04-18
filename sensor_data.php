@@ -13,7 +13,7 @@
     <div class="header">
         <ul>
             <h1>ECO DRONE</h1>
-            <a href="index.php"><li>Заглавна страница</li></a>
+            <a href="index.php"><li>Начална страница</li></a>
             <a href="sensor_data.php" class="active"><li>Качество на въздуха</li></a>
             <a href="technical_information.html"><li>Техническа Информация</li></a>
             <a href="extras.html"><li>Допълнителна Информация</li></a>
@@ -22,7 +22,7 @@
     <div class="contents">
         <div class="centerbox">
             <div class="boxheader" style="color:white; height:50px; margin:auto">
-                <h2>Подробна актуална информация</h2>   
+                <h2>Пордробна Информация</h2>   
             </div>
                 <div class="centerbox-back" style="height:0px">
                     <div class="lds-ring-center">

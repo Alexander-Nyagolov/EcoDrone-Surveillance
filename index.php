@@ -13,20 +13,22 @@
 	<body>
         <div class="header">
         <ul>
+            <div class="header_space"></div>
             <h1>ECO DRONE</h1>
-            <a href="index.php"><li>Заглавна страница</li></a>
-            <a href="sensor_data.php" class="active"><li>Качество на въздуха</li></a>
+            <a href="index.php" class="active"><li>Начална страница</li></a>
+            <a href="sensor_data.php" ><li>Качество на въздуха</li></a>
             <a href="technical_information.html"><li>Техническа Информация</li></a>
             <a href="extras.html"><li>Допълнителна Информация</li></a>
         </ul>
-    </div>
+        </div>
+        <div class="enclosing">
         <div class="contents">
             <div class="centerbox">
                 <div class="boxcontents">
                     <div class="boxheader" style="margin-top:0px;">
                     <h1>Качество на въздуха:</h1>
                     </div>
-                         <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto; border-radius: 20% 20% 20% 20%;"></div>
+                         <div id = "container" style = "width: 600px; height: 500px; margin: 0 auto; border-radius: 20% 20% 20% 20%;"></div>
                     <a href="sensor_data.php"><button class="animated_button">Подробна информация</button></a>
                 </div>
                 <br>
@@ -37,7 +39,7 @@
                 </div>
                 <div class="boxcontents">
                     
-                    <p style="font-size:20px;">
+                    <p style="font-size:30px;">
                         EcoDrone Surveillance е компания, чиято цел е чрез своите продукти и услуги да спомогне за превенцията и намаляването на замърсяването на въздуха, като по този начин подобри цялостното благосъстояние на околната среда.
                     </p>
                     <br>
@@ -215,5 +217,6 @@ function Save(result){
          });
 }
     </script>
+        </div>
     </body>
 </html>	
