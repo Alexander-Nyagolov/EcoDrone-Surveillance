@@ -1,15 +1,14 @@
-#include "PMS.h"
-#include "SoftwareSerial.h"
+#include <PMS.h>
+#include <SoftwareSerial.h>
+SoftwareSerial pmsSerial(32, 14); // RX, TX
 
-SoftwareSerial rf(1);
-
-PMS pms(Serial);
+PMS pms(pmsSerial);
 PMS::DATA data;
 
 void setup()
 {
-  Serial.begin(115200);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)
-  rf.begin(115200);  // GPIO2 (D4 pin on ESP-12E Development Board)
+  Serial.begin(115200);  
+  pmsSerial.begin(9600);  
 }
 
 void loop()

@@ -1,10 +1,10 @@
 #include <SoftwareSerial.h>
-SoftwareSerial pmsSerial(15, 2); // TX, RX
+SoftwareSerial pmsSerial(15, 2);
  
 void setup() {
   // our debugging output
   Serial.begin(115200);
- 
+  pinMode(33, OUTPUT);
   // sensor baud rate is 9600
   pmsSerial.begin(9600);
 }
@@ -21,6 +21,7 @@ struct pms5003data {
 struct pms5003data data;
     
 void loop() {
+  digitalWrite(33, HIGH);
   if (readPMSdata(&pmsSerial)) {
     // reading data was successful!
     Serial.println();
@@ -43,6 +44,7 @@ void loop() {
     Serial.print("Particles > 10.0 um / 0.1L air:"); Serial.println(data.particles_100um);
     Serial.println("---------------------------------------");
   }
+  digitalWrite(33, LOW);
 }
  
 boolean readPMSdata(Stream *s) {

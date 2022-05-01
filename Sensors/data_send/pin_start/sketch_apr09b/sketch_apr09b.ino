@@ -11,9 +11,8 @@
 #include <Adafruit_CCS811.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <MQUnifiedsensor.h>
 #include <SoftwareSerial.h>
-SoftwareSerial pmsSerial(4, 2);
+SoftwareSerial pmsSerial(15, 2);
 
 // GPRS credentials
 const char apn[]      = "internet.a1.bg"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
@@ -43,24 +42,18 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 #define I2C_SCL              22
 
 //Start-up pins
-#define VIOLET_POWER         36
-#define GREEN_POWER          27
-#define CO_POWER             26
-#define OZONE_POWER          25
-#define PM_POWER             15
+const int SENSORS_POWER = 33;
+const int LED = 13;
 
 const int COPin = 32;      // MQ-9 CO sensor is connected to GPIO 32 (Analog ADC1_CH6) 
 const int OzonePin = 34;   // MQ-131 O3 sensor is connected to GPIO 34
 const int outputA = 13;    // Green VOC sensor is connected A to GPIO 13 
 const int outputB = 12;    // B to GPIO 12
-const int PM_RX = 2;       // PM sensor is connected RX to GPIO 2
-const int PM_TX = 4;       // TX to GPIO 4
 Adafruit_CCS811 ccs;       // Violet VOC sensor is connected to SCL pin - 22 & SDA pin - 21
 
-int potValue = 0;         // variable for storing the CO sensor value
 int AValue = 0;           // variable for storing the A pin sensor value
 int BValue = 0;           // variable for storing the B pin sensor value
-float VOC = 0.0;
+float VOC = 0.0;          // variable for storing the VOC sensor value
 
 // Set serial for debug console (to Serial Monitor, default speed 115200)
 #define SerialMon Serial
@@ -110,11 +103,8 @@ bool setPowerBoostKeepOn(int en){
 
 void setup() {
   //Declare pinMode for powerup
-  pinMode(VIOLET_POWER,OUTPUT);
-  pinMode(GREEN_POWER,OUTPUT);
-  pinMode(CO_POWER,OUTPUT);
-  pinMode(OZONE_POWER,OUTPUT);
-  pinMode(PM_POWER,OUTPUT);
+  pinMode(SENSORS_POWER, OUTPUT);
+  pinMode(LED, OUTPUT);
   
   // Set serial monitor debugging window baud rate to 115200
   SerialMon.begin(115200);
@@ -166,6 +156,9 @@ struct pms5003data {
 struct pms5003data data;
 
 void loop() {
+  digitalWrite(SENSORS_POWER, HIGH); // Turn sensors on
+  digitalWrite(LED, HIGH); // Turn led on
+  delay(30*1000); 
   SerialMon.print("Connecting to APN: ");
   SerialMon.print(apn);
   if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
@@ -181,26 +174,6 @@ void loop() {
     }
     else {
       SerialMon.println(" OK");
-
-      digitalWrite(OZONE_POWER, HIGH); // Green sensor on
-      delay(10); 
-      //After test uncomment:
-      //delay(2*60*1000);
-      digitalWrite(GREEN_POWER, HIGH); // Green sensor on
-      delay(10); 
-      //After test uncomment:
-      //delay(1.5*60*1000);
-      digitalWrite(CO_POWER, HIGH); // MQ-9 sensor on
-      delay(10); 
-      //After test uncomment:
-      //delay(30*1000);
-      digitalWrite(VIOLET_POWER, HIGH); // VOC sensor on
-      delay(10); 
-      digitalWrite(PM_POWER, HIGH); // PM sensor on
-      delay(10); 
-      //After test uncomment:
-      //delay(60*1000);
-  
       AValue = analogRead(outputA);
       BValue = analogRead(outputB);
       float voltageA = AValue * (5.0 / 1023.0);
@@ -225,8 +198,8 @@ void loop() {
       SerialMon.println("Performing HTTP POST request...");
       // Prepare your HTTP POST request data (CO levels)
       String httpRequestData = "api_key=" + apiKeyValue + "&co=" + String(analogRead(COPin))
-                               + "&co2=" + String(ccs.geteCO2()) + "&voc" + String(VOC)
-                               + "&tvoc" + String(ccs.getTVOC()) + "&ozone=" + String(analogRead(OzonePin))
+                               + "&co2=" + String(ccs.geteCO2()) + "&voc=" + String(VOC)
+                               + "&tvoc=" + String(ccs.getTVOC()) + "&ozone=" + String(analogRead(OzonePin))
                                + "&pm1=" + String(data.pm10_standard) + "&pm25=" + String(data.pm25_standard)
                                + "&pm10=" + String(data.pm100_standard) +"";
       // You can comment the httpRequestData variable above
@@ -241,11 +214,7 @@ void loop() {
       client.println(httpRequestData.length());
       client.println();
       client.println(httpRequestData);
-      digitalWrite(OZONE_POWER, LOW); // Green sensor off
-      digitalWrite(GREEN_POWER, LOW); // Green sensor off
-      digitalWrite(CO_POWER, LOW); // MQ-9 sensor off
-      digitalWrite(VIOLET_POWER, LOW); // VOC sensor off
-      digitalWrite(PM_POWER, LOW); // PM sensor off
+      
       unsigned long timeout = millis();
       while (client.connected() && millis() - timeout < 10000L) {
         // Print available data (HTTP response from server)
@@ -264,6 +233,8 @@ void loop() {
       SerialMon.println(F("GPRS disconnected"));
     }
   }
+  digitalWrite(SENSORS_POWER, LOW); // Turn sensors off
+  digitalWrite(LED, LOW); // Turn led off
   // Put ESP32 into deep sleep mode (with timer wake up)
   esp_deep_sleep_start();
 }
