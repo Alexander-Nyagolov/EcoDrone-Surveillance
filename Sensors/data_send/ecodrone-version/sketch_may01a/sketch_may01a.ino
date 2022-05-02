@@ -141,7 +141,6 @@ struct pms5003data data;
 void loop() {
   digitalWrite(STARTPIN, HIGH); // Turn on sensors
   delay(10*1000);
-  for(int i = 0; i <= 10; i++){
   SerialMon.print("Connecting to APN: ");
   SerialMon.print(apn);
   if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
@@ -240,7 +239,6 @@ void loop() {
       modem.gprsDisconnect();
       SerialMon.println(F("GPRS disconnected"));
     }
-  }
   }
   digitalWrite(STARTPIN, LOW); // Turn off sensors
   // Put ESP32 into deep sleep mode (with timer wake up)

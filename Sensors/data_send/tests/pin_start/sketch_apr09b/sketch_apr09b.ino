@@ -9,8 +9,10 @@
   copies or substantial portions of the Software.
 */
 #include <Adafruit_CCS811.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
 #include <SoftwareSerial.h>
-SoftwareSerial pmsSerial(15, 2); // TX, RX
+SoftwareSerial pmsSerial(15, 2);
 
 // GPRS credentials
 const char apn[]      = "internet.a1.bg"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
@@ -36,29 +38,22 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 #define MODEM_POWER_ON       23
 #define MODEM_TX             27
 #define MODEM_RX             26
+#define I2C_SDA              21
+#define I2C_SCL              22
 
-// Start-up pin
-#define STARTPIN             25
+//Start-up pins
+const int SENSORS_POWER = 33;
+const int LED = 13;
 
-const int COPin = 35;      // MQ-9 CO sensor is connected to GPIO 35 (Analog ADC1_CH6) 
+const int COPin = 32;      // MQ-9 CO sensor is connected to GPIO 32 (Analog ADC1_CH6) 
 const int OzonePin = 34;   // MQ-131 O3 sensor is connected to GPIO 34
 const int outputA = 13;    // Green VOC sensor is connected A to GPIO 13 
 const int outputB = 12;    // B to GPIO 12
 Adafruit_CCS811 ccs;       // Violet VOC sensor is connected to SCL pin - 22 & SDA pin - 21
 
-int pm1 = 0;
-int pm25 = 0;
-int pm100 = 0;
-int particles_03um = 0;
-int particles_05um = 0;
-int particles_10um = 0;
-int particles_25um = 0;
-int particles_50um = 0;
-int particles_100um = 0; 
-int potValue = 0;         // variable for storing the CO sensor value
 int AValue = 0;           // variable for storing the A pin sensor value
 int BValue = 0;           // variable for storing the B pin sensor value
-float VOC = 0.0;
+float VOC = 0.0;          // variable for storing the VOC sensor value
 
 // Set serial for debug console (to Serial Monitor, default speed 115200)
 #define SerialMon Serial
@@ -72,6 +67,7 @@ float VOC = 0.0;
 // Define the serial console for debug prints, if needed
 //#define DUMP_AT_COMMANDS
 
+#include <Wire.h>
 #include <TinyGsmClient.h>
 
 #ifdef DUMP_AT_COMMANDS
@@ -82,21 +78,46 @@ float VOC = 0.0;
   TinyGsm modem(SerialAT);
 #endif
 
+// I2C for SIM800 (to keep it running when powered from battery)
+TwoWire I2CPower = TwoWire(0);
+
 // TinyGSM Client for Internet connection
 TinyGsmClient client(modem);
 
 #define uS_TO_S_FACTOR 1000000UL   /* Conversion factor for micro seconds to seconds */
 #define TIME_TO_SLEEP  36        /* Time ESP32 will go to sleep (in seconds) 3600 seconds = 1 hour */
 
+#define IP5306_ADDR          0x75
+#define IP5306_REG_SYS_CTL0  0x00
+
+bool setPowerBoostKeepOn(int en){
+  I2CPower.beginTransmission(IP5306_ADDR);
+  I2CPower.write(IP5306_REG_SYS_CTL0);
+  if (en) {
+    I2CPower.write(0x37); // Set bit1: 1 enable 0 disable boost keep on
+  } else {
+    I2CPower.write(0x35); // 0x37 is default reg value
+  }
+  return I2CPower.endTransmission() == 0;
+}
+
 void setup() {
+  //Declare pinMode for powerup
+  pinMode(SENSORS_POWER, OUTPUT);
+  pinMode(LED, OUTPUT);
+  
   // Set serial monitor debugging window baud rate to 115200
   SerialMon.begin(115200);
-
   // PM sensor baud rate is 9600
   pmsSerial.begin(9600);
-
-  pinMode(STARTPIN, OUTPUT);
   
+  // Start I2C communication
+  I2CPower.begin(I2C_SDA, I2C_SCL, 400000);
+
+  // Keep power when running from battery
+  bool isOk = setPowerBoostKeepOn(1);
+  SerialMon.println(String("IP5306 KeepOn ") + (isOk ? "OK" : "FAIL"));
+
   // Set modem reset, enable, power pins
   pinMode(MODEM_PWKEY, OUTPUT);
   pinMode(MODEM_RST, OUTPUT);
@@ -108,10 +129,7 @@ void setup() {
   // Set GSM module baud rate and UART pins
   SerialAT.begin(115200, SERIAL_8N1, MODEM_RX, MODEM_TX);
   delay(3000);
-if(!ccs.begin()){
-    Serial.println("Failed to start sensor! Please check your wiring.");
-    while(1);
-  }
+
   // Restart SIM800 module, it takes quite some time
   // To skip it, call init() instead of restart()
   SerialMon.println("Initializing modem...");
@@ -126,7 +144,7 @@ if(!ccs.begin()){
   // Configure the wake up source as timer wake up  
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
 }
- 
+
 struct pms5003data {
   uint16_t framelen;
   uint16_t pm10_standard, pm25_standard, pm100_standard;
@@ -135,13 +153,12 @@ struct pms5003data {
   uint16_t unused;
   uint16_t checksum;
 };
- 
 struct pms5003data data;
-  
+
 void loop() {
-  digitalWrite(STARTPIN, HIGH); // Turn on sensors
-  delay(10*1000);
-  for(int i = 0; i <= 10; i++){
+  digitalWrite(SENSORS_POWER, HIGH); // Turn sensors on
+  digitalWrite(LED, HIGH); // Turn led on
+  delay(30*1000); 
   SerialMon.print("Connecting to APN: ");
   SerialMon.print(apn);
   if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
@@ -157,30 +174,6 @@ void loop() {
     }
     else {
       SerialMon.println(" OK");
-       if(ccs.available()){
-        if(!ccs.readData()){
-          Serial.print("CO2: ");
-          Serial.print(ccs.geteCO2());
-          Serial.print("ppm, TVOC: ");
-          Serial.println(ccs.getTVOC());
-        }
-        else{
-          Serial.println("ERROR!");
-          while(1);
-        }
-       }
-       if (readPMSdata(&pmsSerial)) {
-        // reading data was successful!
-        pm1 = data.pm10_env;
-        pm25 = data.pm25_env;
-        pm100 = data.pm100_env;
-        particles_03um = data.particles_03um;
-        particles_05um = data.particles_05um;
-        particles_10um = data.particles_10um;
-        particles_25um = data.particles_25um;
-        particles_50um = data.particles_50um;
-        particles_100um = data.particles_100um;
-      }
       AValue = analogRead(outputA);
       BValue = analogRead(outputB);
       float voltageA = AValue * (5.0 / 1023.0);
@@ -203,16 +196,15 @@ void loop() {
       }
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
-      
       // Prepare your HTTP POST request data (CO levels)
       String httpRequestData = "api_key=" + apiKeyValue + "&co=" + String(analogRead(COPin))
                                + "&co2=" + String(ccs.geteCO2()) + "&voc=" + String(VOC)
                                + "&tvoc=" + String(ccs.getTVOC()) + "&ozone=" + String(analogRead(OzonePin))
-                               + "&pm1=" + String(pm1) + "&pm25=" + String(pm25)
-                               + "&pm10=" + String(pm100) + "&particles_03um=" + String(particles_03um)
-                               + "&particles_05um=" + String(particles_05um) + "&particles_10um=" + String(particles_10um)
-                               + "&particles_25um=" + String(particles_25um) + "&particles_50um=" + String(particles_50um) 
-                               + "&particles_100um=" + String(particles_100um) +"";
+                               + "&pm1=" + String(data.pm10_standard) + "&pm25=" + String(data.pm25_standard)
+                               + "&pm10=" + String(data.pm100_standard) +"";
+      // You can comment the httpRequestData variable above
+      // then, use the httpRequestData variable below (for testing purposes without the BME280 sensor)
+      // String httpRequestData = "api_key=tPmAT5Ab3j7F9&value1=24.75&value2=49.54&value3=1005.14";
     
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
       client.print(String("Host: ") + server + "\r\n");
@@ -222,7 +214,7 @@ void loop() {
       client.println(httpRequestData.length());
       client.println();
       client.println(httpRequestData);
-
+      
       unsigned long timeout = millis();
       while (client.connected() && millis() - timeout < 10000L) {
         // Print available data (HTTP response from server)
@@ -241,12 +233,11 @@ void loop() {
       SerialMon.println(F("GPRS disconnected"));
     }
   }
-  }
-  digitalWrite(STARTPIN, LOW); // Turn off sensors
+  digitalWrite(SENSORS_POWER, LOW); // Turn sensors off
+  digitalWrite(LED, LOW); // Turn led off
   // Put ESP32 into deep sleep mode (with timer wake up)
   esp_deep_sleep_start();
 }
- 
 boolean readPMSdata(Stream *s) {
   if (! s->available()) {
     return false;
