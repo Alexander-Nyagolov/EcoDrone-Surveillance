@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Finals preparation" company="EcoDrone Surveillance" webLink="http://alexandernyagolov.com/" view-date="2022-04-26" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="3.1.3103" locale="bg_BG">
+<?xml version="1.0" encoding="UTF-8"?><project name="Finals preparation" company="EcoDrone Surveillance" webLink="http://alexandernyagolov.com/" view-date="2022-04-22" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="3.1.3103" locale="bg_BG">
     <description/>
-    <view zooming-state="default:0" id="gantt-chart">
+    <view zooming-state="default:1" id="gantt-chart">
         <field id="tpd3" name="Name" width="154" order="0"/>
         <field id="tpd4" name="Begin date" width="64" order="1"/>
         <field id="tpd5" name="End date" width="63" order="2"/>
@@ -43,11 +43,11 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="20" name="Редактиране на сайта" color="#99ff33" shape="0,1,1,1,1,0,0,0,1,0,0,0,1,0,0,0" meeting="false" project="true" start="2022-04-29" duration="9" complete="0" thirdDate="2022-04-26" thirdDate-constraint="0" webLink="http%3A%2F%2Falexandernyagolov.com%2F" expand="true">
+        <task id="20" name="Редактиране на сайта" color="#99ff33" shape="0,1,1,1,1,0,0,0,1,0,0,0,1,0,0,0" meeting="false" project="true" start="2022-04-29" duration="9" complete="10" thirdDate="2022-04-26" thirdDate-constraint="0" webLink="http%3A%2F%2Falexandernyagolov.com%2F" expand="true">
             <depend id="16" type="1" difference="0" hardness="Strong"/>
             <depend id="41" type="1" difference="0" hardness="Strong"/>
             <depend id="128" type="2" difference="0" hardness="Strong"/>
-            <task id="133" name="Закупуване на домейн" color="#ff0000" meeting="false" start="2022-04-29" duration="1" complete="0" thirdDate="2022-04-29" thirdDate-constraint="0" priority="4" expand="true">
+            <task id="133" name="Закупуване на домейн" color="#ff0000" meeting="false" start="2022-04-29" duration="1" complete="100" thirdDate="2022-04-29" thirdDate-constraint="0" priority="4" expand="true">
                 <depend id="112" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="112" name="Миграция" color="#ff0000" meeting="false" start="2022-04-30" duration="1" complete="0" thirdDate="2022-04-27" thirdDate-constraint="0" priority="4" expand="true">
@@ -94,15 +94,15 @@
             </task>
         </task>
         <task id="128" name="Тест на сайта" color="#ffff00" meeting="true" start="2022-05-10" duration="0" complete="0" thirdDate="2022-04-25" thirdDate-constraint="0" expand="true"/>
-        <task id="16" name="Оправяне на платката" color="#00ffff" shape="0,1,1,1,1,0,0,0,1,0,0,0,1,0,0,0" meeting="false" project="true" start="2022-04-29" duration="4" complete="0" thirdDate="2022-04-25" thirdDate-constraint="0" expand="true">
+        <task id="16" name="Оправяне на платката" color="#00ffff" shape="0,1,1,1,1,0,0,0,1,0,0,0,1,0,0,0" meeting="false" project="true" start="2022-04-29" duration="4" complete="70" thirdDate="2022-04-25" thirdDate-constraint="0" expand="true">
             <depend id="119" type="2" difference="0" hardness="Strong"/>
-            <task id="17" name="Преразглеждане на пинове" color="#ff0000" meeting="false" start="2022-04-29" duration="1" complete="0" thirdDate="2022-04-26" thirdDate-constraint="0" priority="4" expand="true">
+            <task id="17" name="Преразглеждане на пинове" color="#ff0000" meeting="false" start="2022-04-29" duration="1" complete="100" thirdDate="2022-04-26" thirdDate-constraint="0" priority="4" expand="true">
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="18" name="Преправяне на платката" color="#ffcc00" meeting="false" start="2022-04-30" duration="2" complete="0" thirdDate="2022-04-18" thirdDate-constraint="0" priority="2" expand="true">
+            <task id="18" name="Преправяне на платката" color="#ffcc00" meeting="false" start="2022-04-30" duration="2" complete="40" thirdDate="2022-04-18" thirdDate-constraint="0" priority="2" expand="true">
                 <depend id="19" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="19" name="Препрограмиране на модул" color="#00ff66" meeting="false" start="2022-05-02" duration="1" complete="0" thirdDate="2022-04-25" thirdDate-constraint="0" expand="true"/>
+            <task id="19" name="Препрограмиране на модул" color="#00ff66" meeting="false" start="2022-05-02" duration="1" complete="100" thirdDate="2022-04-25" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="119" name="Успешно изпращане" color="#ffff00" shape="1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1" meeting="true" start="2022-05-03" duration="0" complete="0" thirdDate="2022-04-24" thirdDate-constraint="0" expand="true"/>
         <task id="41" name="Маркетинг" color="#ff99ff" shape="0,1,1,1,1,0,0,0,1,0,0,0,1,0,0,0" meeting="false" project="true" start="2022-05-02" duration="3" complete="0" thirdDate="2022-04-22" thirdDate-constraint="0" expand="true">
