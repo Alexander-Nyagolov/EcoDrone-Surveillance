@@ -53,7 +53,7 @@ $particles_25um = end($particles_25um);
 $particles_50um = end($particles_50um);
 $particles_100um = end($particles_100um);
 
-echo "$co, $co2, $voc, $ozone, $pm1, $pm25, $pm10, $particles_03um, $particles_05um, $particles_10um, $particles_25um, $particles_50um, $particles_100um, $readings_time";
+echo "$voc, $co, $co2, $tvoc, $ozone, $pm1, $pm25, $pm10, $particles_03um, $particles_05um, $particles_10um, $particles_25um, $particles_50um, $particles_100um, $readings_time";
 
 $result->free();
 $conn->close();

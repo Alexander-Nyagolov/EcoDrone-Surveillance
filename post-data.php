@@ -15,7 +15,7 @@ global $conn;
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page. If you change this value, the ESP32 sketch needs to match
 $api_key_value = "tPmAT5Ab3j7F9";
 
-$api_key = $co = $co2 = $voc = $tvoc = $ozone = $pm1 = $pm25 = $pm10 = "";
+$api_key = $co = $co2 = $voc = $tvoc = $ozone = $pm1 = $pm25 = $pm10 = $particles_03um = $particles_05um = $particles_10um = $particles_25um = $particles_50um = $particles_100um = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $api_key = test_input($_POST["api_key"]);
@@ -28,14 +28,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pm1 = test_input($_POST["pm1"]);
         $pm25 = test_input($_POST["pm25"]);
       	$pm10 = test_input($_POST["pm10"]);
+      	$particles_03um = test_input($_POST["particles_03um"]);
+      	$particles_05um = test_input($_POST["particles_05um"]);
+      	$particles_10um = test_input($_POST["particles_10um"]);
+        $particles_25um = test_input($_POST["particles_25um"]);
+        $particles_50um = test_input($_POST["particles_50um"]);
+      	$particles_100um = test_input($_POST["particles_100um"]);
 
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         } 
         
-        $sql = "INSERT INTO Sensor (co, co2, voc, tvoc, ozone, pm1, pm25, pm10)
-        VALUES ('" . $co . "', '" . $co2 . "', '" . $voc . "', '" . $tvoc . "', '" . $ozone . "', '" . $pm1 . "', '" . $pm25 . "', '" . $pm10 . "')";
+        $sql = "INSERT INTO Sensor (co, co2, voc, tvoc, ozone, pm1, pm25, pm10, particles_03um, particles_05um, particles_10um, particles_25um, particles_50um, particles_100um)
+        VALUES ('" . $co . "', '" . $co2 . "', '" . $voc . "', '" . $tvoc . "', '" . $ozone . "', '" . $pm1 . "', '" . $pm25 . "', '" . $pm10 . "', '" . $particles_03um . "', '" . $particles_05um . "', '" . $particles_10um . "', '" . $particles_25um . "', '" . $particles_50um . "', '" . $particles_100um . "')";
         
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
@@ -43,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
-    
+    	
         $conn->close();
     }
     else {

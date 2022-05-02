@@ -2,7 +2,8 @@
 <html>
  
 	<head>
-        <title>Eco Drone Оfficial Website</title>
+        <title>EcoDrone Surveillance</title>
+  		<link rel="shortcut icon" href="/project/images/favicon.ico" type="image/x-icon">
         <link rel='stylesheet' href=/project/style.css?v=1553116856>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
@@ -106,23 +107,19 @@
             </div>
         </div>
     <script>
-var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    result = this.responseText;
-                    Save(result);
-                }
-            };
-            xmlhttp.open("GET", "get-data.php", true);
-            xmlhttp.send();
-
 function Save(result){
     var voc = result;
-     var calc = voc[voc.length - 4]+'.'+voc[voc.length - 2];
-     var last = parseFloat(calc);
+  	let values = result.split(', ');
+    var calc = parseFloat(values[values.length - 15]);
+    var last = parseFloat(calc);
+  //alert(result);
     $(document).ready(function() {
           var valText;
           if(last == 0.5)
+		   {
+			valText = "Чисто";
+		   }
+      	   else if(last == 0)
 		   {
 			valText = "Чисто";
 		   }
@@ -216,6 +213,17 @@ function Save(result){
             $('#container').highcharts(json);
          });
 }
+      setInterval(function ( ) {
+			var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    result = this.responseText;
+                    Save(result);
+                }
+            };
+            xmlhttp.open("GET", "get-data.php", true);
+            xmlhttp.send();
+		}, 3000 ) ;
     </script>
         </div>
     </body>
