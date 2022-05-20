@@ -12,7 +12,7 @@
                 <h1>ECO DRONE</h1>
                 <a href="index.php"><li>Начална страница</li></a>
                 <a href="sensor_data.php"><li>Качество на въздуха</li></a>
-                <a href="technical_information.html"><li>Техническа Информация</li></a>
+                <a href="technical_information.php"><li>Техническа Информация</li></a>
                 <a href="extras.html" class="active"><li>Допълнителна Информация</li></a>
             </ul>
         </div>

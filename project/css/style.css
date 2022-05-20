@@ -3,7 +3,7 @@
 
 /*colors:
 #21DF95
-#29966C 
+#29966C
 #DFDB28
 #93410F
 #DE753B
@@ -106,12 +106,12 @@ p{
     transition: 0.3s;
 }
 .header li{
-    min-width: 100px;   
+    min-width: 100px;
     margin: auto;
     float: left;
     width: auto;
     color: #21DF95;
-    list-style-type: none;    
+    list-style-type: none;
     background-color: #21DF95;
     padding: 10px;
     margin-right: 5px;
