@@ -1,8 +1,6 @@
 <?php
 namespace Phppot;
 
-use \Phppot\DataSource;
-
 class NewsLetter
 {
 
@@ -17,7 +15,7 @@ class NewsLetter
     public function getAllRecords()
     {
         $query = 'select * from Language';
-        $result = $this->ds->select($query);
-        return $result;
+        $result_lang = $this->ds->select($query);
+        return $result_lang;
     }
 }
