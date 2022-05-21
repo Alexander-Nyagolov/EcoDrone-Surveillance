@@ -1,5 +1,6 @@
 <?php
-include ('config.php');
+include('config.php');
+
 global $conn;
 // Check connection
 if ($conn->connect_error) {
@@ -46,8 +47,6 @@ $reading_time = json_encode(array_reverse($readings_time), JSON_NUMERIC_CHECK);
 
 $result->free();
 $conn->close();
-
-//header("Refresh:10");
 ?>
 <!DOCTYPE html>
 <html>
@@ -60,9 +59,10 @@ $conn->close();
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src = "https://code.highcharts.com/highcharts.js"></script>
   <script src = "https://code.highcharts.com/highcharts-more.js"></script>
-<link rel="stylesheet" href="/project/style.css">
+<link rel="stylesheet" href="/project/css/style.css">
 </head>
   <body>
+
     <div id="co" class="container"></div>
     <br>
     <div id="chart-tvoc" class="container"></div>
@@ -98,12 +98,12 @@ var chartCO = new Highcharts.Chart({
     	zoomType: 'x'
     },
     title: {
-        text: 'Въглеродни оксиди'
+        text: '<?= $result_lang[16][$lang.'_title']; ?>'
     },
 
     yAxis: {
         title: {
-            text: 'Нива (ppm)'
+            text: '<?= $result_lang[16][$lang.'_description']; ?>'
         }
     },
 
@@ -160,9 +160,9 @@ var chartVOC = new Highcharts.Chart({
     	renderTo:'chart-tvoc',
         zoomType: 'x'
         },
-  title: { text: 'Летливи органични частици' },
+  title: { text: '<?= $result_lang[18][$lang.'_title']; ?>' },
   series: [{
-      name: 'Показания',
+      name: '<?= $result_lang[16][$lang.'_description']; ?>',
     showInLegend: false,
     data: tvoc
   }],
@@ -188,9 +188,9 @@ var chartOzone = new Highcharts.Chart({
     	renderTo:'chart-ozone',
   		zoomType: 'x'
   		},
-  title: { text: 'Нива на озон' },
+  title: { text: '<?= $result_lang[19][$lang.'_title']; ?>' },
   series: [{
-      name: 'Показания',
+      name: '<?= $result_lang[16][$lang.'_description']; ?>',
     showInLegend: false,
     data: ozone
   }],
@@ -238,7 +238,7 @@ var chartPM = new Highcharts.Chart({
     	zoomType: 'x'
     },
     title: {
-        text: 'Главни фини прахови частици'
+        text: '<?= $result_lang[20][$lang.'_title']; ?>'
     },
 
     yAxis: {
@@ -303,12 +303,12 @@ var chartP1 = new Highcharts.Chart({
     	zoomType: 'x'
     },
     title: {
-        text: 'Фини прахови частици (< 1 μg)'
+        text: '<?= $result_lang[20][$lang.'_description']; ?> (< 1 μg)'
     },
 
     yAxis: {
         title: {
-            text: 'Particles (μg/0.1L air)'
+            text: '<?= $result_lang[21][$lang.'_title']; ?> (μg/0.1L air)'
         }
     },
 
@@ -373,12 +373,12 @@ var chartP10 = new Highcharts.Chart({
     	zoomType: 'x'
     },
     title: {
-        text: 'Фини прахови частици (> 1 μg)'
+        text: '<?= $result_lang[20][$lang.'_description']; ?> (> 1 μg)'
     },
 
     yAxis: {
         title: {
-            text: 'Particles (μg/0.1L air)'
+            text: '<?= $result_lang[21][$lang.'_title']; ?> (μg/0.1L air)'
         }
     },
 
@@ -534,5 +534,6 @@ var chartP10 = new Highcharts.Chart({
 }, 1000, 5);
 }, 60*1000);
 </script>
+
 </body>
 </html>
