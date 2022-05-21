@@ -1,3 +1,4 @@
+<?php require_once("./Php functions/switch_lang.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,41 +8,86 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 	</head>
 	<body>
+        <?php
+if (! empty($result_lang)) {
+?>
         <div class="header">
             <ul>
+                <div class="header_space"></div>
                 <h1>ECO DRONE</h1>
-                <a href="index.php"><li>Начална страница</li></a>
-                <a href="sensor_data.php"><li>Качество на въздуха</li></a>
-                <a href="technical_information.html" class="active"><li>Техническа Информация</li></a>
-                <a href="extras.php"><li>Допълнителна Информация</li></a>
+                <a href="index.php" class="active"><li><?php echo $result_lang[0][$lang.'_title']; ?></li></a>
+                <a href="sensor_data.php" ><li><?php echo $result_lang[1][$lang.'_title']; ?></li></a>
+                <a href="technical_information.php"><li><?php echo $result_lang[2][$lang.'_title']; ?></li></a>
+                <a href="extras.php"><li><?php echo $result_lang[3][$lang.'_title']; ?></li></a>
             </ul>
         </div>
+
+        <nav>
+            <div class="logo">
+                 <!--This provides space-->
+            </div>
+            <div class="lang-menu">
+                <div class="selected-lang <?php echo $lang?>">
+                    <?php echo $selection;?>
+                </div>
+                <ul>
+                    <li>
+                         <a class="bg language-link-item" href="<?=$page?>?lang=bg"
+                        <?php if($lang == 'bg'){?> style="color: #ff9900;"
+                        <?php } ?>>Български</a>
+                    </li>
+                    <li>
+                        <a class="de language-link-item" href="<?=$page?>?lang=de"
+                        <?php if($lang == 'de'){?> style="color: #ff9900;"
+                        <?php } ?>>Deutsch</a>
+                    </li>
+                    <li>
+                        <a class="ru language-link-item" href="<?=$page?>?lang=ru"
+                        <?php if($lang == 'ru'){?> style="color: #ff9900;"
+                        <?php } ?>>Руский</a>
+                    </li>
+                    <li>
+                        <a class="en language-link-item" href="<?=$page?>?lang=en"
+                        <?php if($lang == 'en'){?> style="color: #ff9900;"
+                        <?php } ?>>English</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
         <div class="contents">
             <div class="centerbox" style="align-items: center; display:block;margin: 20px 3%;">
                 <div class="boxheader">
-                    <h1 style="font-size: 200%; margin: 0px;">Техническа информация</h1>
+                    <h1 style="font-size: 200%; margin: 0px;"><?php echo $result_lang[2][$lang.'_title']; ?></h1>
                 </div>
                 <div class = "boxcontents">
                      <div class = "boxlist">
                         <img src="project/images/eco_drone_picture_1.jpg" style="margin: 0px auto;float:left; width:600px; height: 310px;">
                         <div class="textlimit">
-                            <p style = "margin:0px;font-size: 17pt;">Дронът се състои от три основни части - пластмасовото шаси с моторите, перките и захранването, а под дрона се намира прозрачна кутия с вентилация, в която са сензорите и платката, нужни за предаването на данните. Тази конструкция прави дрона достатъчно аеродинамичен, за да не бъде засегнат от силни ветрове, а кутията предоставя защита от дъжд и сняг на елементите, захранвани от електричество. Информацията от сензорите достига до нашия сървър, в който се съхранява и се представя, чрез интерактивни диаграми.</p>
+                            <p style = "margin:0px;font-size: 17pt;"><?php echo $result_lang[22][$lang.'_description']; ?></p>
                         </div>
                         <img src="project/images/eco_drone_picture_2.jpg" style="margin: 0px auto;float:right; width:600px; height: 310px;">
                         <img src="project/images/drone_transparent.png" style="width:620px; height: 510px;">
                     </div>
                 </div>
                 <div class="boxheader">
-                    <h1 style="font-size: 200%; margin: 0px;">Промоционално видео</h1>
+                    <h1 style="font-size: 200%; margin: 0px;"><?php echo $result_lang[22][$lang.'_title']; ?></h1>
                 </div>
                     <div class="boxcontents" style="margin-top: 10px; margin: auto">
                         <video width="1020" height="600" controls>
                         <source src="project/images/eco_drone_video.mp4" type="video/mp4">
                         <source src="vid.ogg" type="video/ogg">
-                        No video support.
+                        <strong><h3 style="color: white"><?php echo $result_lang[23][$lang.'_title']; ?></h3></strong>
                         </video>
                     </div>
              </div>
         </div>
+    <?php
+    } else {
+    ?>
+    <div class="no-result"><?php echo $language["NOTIFY_NO_RESULT"]; ?></div>
+    <?php
+    }
+    ?>
     </body>
 </html>
