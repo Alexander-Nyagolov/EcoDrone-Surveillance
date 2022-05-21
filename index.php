@@ -55,8 +55,8 @@ case ('ru'):
                 <h1>ECO DRONE</h1>
                 <a href="index.php" class="active"><li><?php echo $result[0][$lang.'_title']; ?></li></a>
                 <a href="sensor_data.php" ><li><?php echo $result[1][$lang.'_title']; ?></li></a>
-                <a href="technical_information.php"><li><?php echo $result[2][$lang.'_title']; ?></li></a>
-                <a href="extras.php"><li><?php echo $result[3][$lang.'_title']; ?></li></a>
+                <a href="technical_information.html"><li><?php echo $result[2][$lang.'_title']; ?></li></a>
+                <a href="extras.html"><li><?php echo $result[3][$lang.'_title']; ?></li></a>
             </ul>
         </div>
 

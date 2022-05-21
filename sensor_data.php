@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>EcoDrone Surveillance</title>
-  	<link rel="shortcut icon" href="/project/images/favicon.ico" type="image/x-icon">
-    <link rel='stylesheet' href=/project/css/style.css?v=1553116856>
+<title>Eco Drone Official Website</title>
+    <link rel='stylesheet' href=/project/style.css?v=1553116856>
     <script src = "https://code.highcharts.com/highcharts.js"></script>
     <script src = "https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
@@ -16,8 +15,8 @@
             <h1>ECO DRONE</h1>
             <a href="index.php"><li>Начална страница</li></a>
             <a href="sensor_data.php" class="active"><li>Качество на въздуха</li></a>
-            <a href="technical_information.php"><li>Техническа Информация</li></a>
-            <a href="extras.php"><li>Допълнителна Информация</li></a>
+            <a href="technical_information.html"><li>Техническа Информация</li></a>
+            <a href="extras.html"><li>Допълнителна Информация</li></a>
         </ul>
     </div>
     <div class="contents">

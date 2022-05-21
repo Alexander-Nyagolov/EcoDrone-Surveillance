@@ -60,7 +60,7 @@ $conn->close();
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src = "https://code.highcharts.com/highcharts.js"></script>
   <script src = "https://code.highcharts.com/highcharts-more.js"></script>
-<link rel="stylesheet" href="/project/css/style.css">
+<link rel="stylesheet" href="/project/style.css">
 </head>
   <body>
     <div id="co" class="container"></div>
