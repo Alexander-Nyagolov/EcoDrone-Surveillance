@@ -68,7 +68,7 @@
                     <div class="boxheader" style="margin-top:0px;">
                     <h1><?php echo $result_lang[1][$lang.'_title']; ?>:</h1>
                     </div>
-                         <div id = "container"></div>
+                         <div class="container index" id="container"></div>
                     <a href="sensor_data.php"><button class="animated_button"><?php echo $result_lang[3][$lang.'_title']; ?></button></a>
                 </div>
                 <br>

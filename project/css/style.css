@@ -29,6 +29,12 @@ body {
   height: 400px;
   min-width: 310px;
 }
+.container.index {
+    width: 600px;
+    height: 500px;
+    margin: 0 auto;
+    border-radius: 20% 20% 20% 20%;
+}
 .contents{
     margin-left: 10px;
     margin-right: 10px;
