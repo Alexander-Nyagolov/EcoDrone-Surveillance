@@ -5,6 +5,8 @@
         <title>EcoDrone Surveillance</title>
   		<link rel="shortcut icon" href="/project/images/favicon.ico" type="image/x-icon">
         <link rel='stylesheet' href=/project/css/style.css?v=1553116856>
+        <link href='project/css/phppot-style.css' rel='stylesheet' type='text/css' />
+        <link href='project/css/multi-lingual-page.css' rel='stylesheet' type='text/css' />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
 	</head>
 	<body>
