@@ -17,10 +17,10 @@
             <ul>
                 <div class="header_space"></div>
                 <h1>ECO DRONE</h1>
-                <a href="index.php" class="active"><li><?php echo $result_lang[0][$lang.'_title']; ?></li></a>
-                <a href="sensor_data.php" ><li><?php echo $result_lang[1][$lang.'_title']; ?></li></a>
-                <a href="technical_information.php"><li><?php echo $result_lang[2][$lang.'_title']; ?></li></a>
-                <a href="extras.php"><li><?php echo $result_lang[3][$lang.'_title']; ?></li></a>
+                <a href="index.php?lang=<?php echo $lang?>" class="active"><li><?php echo $result_lang[0][$lang.'_title']; ?></li></a>
+                <a href="sensor_data.php?lang=<?php echo $lang?>" ><li><?php echo $result_lang[1][$lang.'_title']; ?></li></a>
+                <a href="technical_information.php?lang=<?php echo $lang?>"><li><?php echo $result_lang[2][$lang.'_title']; ?></li></a>
+                <a href="extras.php?lang=<?php echo $lang?>"><li><?php echo $result_lang[3][$lang.'_title']; ?></li></a>
             </ul>
         </div>
 
