@@ -77,7 +77,7 @@ if (! empty($result_lang)) {
                         <video width="1020" height="600" controls>
                         <source src="project/images/eco_drone_video.mp4" type="video/mp4">
                         <source src="vid.ogg" type="video/ogg">
-                        <strong><h3 style="color: white"><?php echo $result_lang[23][$lang.'_title']; ?></h3></strong>
+                        <strong><h3><?php echo $result_lang[23][$lang.'_title']; ?></h3></strong>
                         </video>
                     </div>
              </div>
